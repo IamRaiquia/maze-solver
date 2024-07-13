@@ -2,7 +2,7 @@ from tkinter import Tk, BOTH, Canvas, messagebox
 
 
 class Window():
-    def __init__(self, w, h):
+    def __init__(self, w=800, h=800):
         self.__root = Tk()
         self.__root.title("Maze Solver")
 
