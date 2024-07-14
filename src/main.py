@@ -1,11 +1,13 @@
-from graphics import Window, Point, Line
-from cell import Cell
 from maze import Maze
+import sys
 
 def main():
-    num_cols = 12
-    num_rows = 10
-    m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
+    
+ 
+    sys.setrecursionlimit(10**6)
+    num_cols = 80
+    num_rows = 50
+    m1 = Maze(0, 0, num_rows, num_cols, 20, 20)
     m1.solve()
 
     m1._win.wait_for_close()

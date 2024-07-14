@@ -60,12 +60,23 @@ class Maze():
         y2 = y1 + self._cell_size_y
 
         self._cells[i][j].draw(x1,x2,y1,y2)
-        self._animate()
+        
+        #Change animate speed to low, medium, fast.
+        self._animate("fast")
 
 
-    def _animate(self):
+    def _animate(self, s="fast"):
         self._win.redraw()
-        time.sleep(0.05)
+        speed = 0.005
+        if s == "low":
+            speed = 0.05
+        if s == "medium":
+            speed = 0.01
+        if s == "fast":
+            speed = 0.005
+        else:
+            print(f"Invalid speed: {s}. Defaulting to fast")
+        time.sleep(speed)
 
     def _break_entrance_exit(self):
         self._cells[0][0].has_top_wall = False
@@ -120,7 +131,8 @@ class Maze():
         return self._solve_r(0, 0)
     
     def _solve_r(self, i, j):
-        self._animate()
+        self._animate("medium")
+
         self._cells[i][j].visited = True
 
         if i == self._num_cols - 1 and j == self._num_rows - 1:
@@ -130,11 +142,10 @@ class Maze():
             and not self._cells[i][j].has_left_wall 
             and not self._cells[i-1][j].visited
             ):
-            print(f"left, column: {i}, row: {j}")
             self._cells[i][j].draw_move(self._cells[i-1][j])
             if self._solve_r(i-1, j):
                 return True
-            
+            self._animate("fast")
             self._cells[i][j].draw_move(self._cells[i-1][j], True)
 
         if (i < len(self._cells) - 1 
@@ -142,9 +153,9 @@ class Maze():
             and not self._cells[i+1][j].visited
             ):
             self._cells[i][j].draw_move(self._cells[i+1][j])
-            print(f"right, column: {i}, row: {j}")
             if self._solve_r(i+1, j):
                 return True
+            self._animate("medium")
             self._cells[i][j].draw_move(self._cells[i+1][j], True)
 
         if (j > 0
@@ -152,19 +163,19 @@ class Maze():
             and not self._cells[i][j-1].visited
             ):
             self._cells[i][j].draw_move(self._cells[i][j-1])
-            print(f"top, column: {i}, row: {j}")
             if self._solve_r(i, j-1):
                 return True
+            self._animate("medium")
             self._cells[i][j].draw_move(self._cells[i][j-1], True)
 
         if (j < len(self._cells[i]) - 1 
             and not self._cells[i][j].has_bottom_wall 
             and not self._cells[i][j+1].visited
             ):
-            print(f"bottom, column: {i}, row: {j}")
             self._cells[i][j].draw_move(self._cells[i][j+1])
             if self._solve_r(i, j+1):
                 return True
+            self._animate("medium")
             self._cells[i][j].draw_move(self._cells[i][j+1], True) 
         
         return False

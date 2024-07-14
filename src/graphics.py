@@ -25,6 +25,7 @@ class Window():
         if messagebox.askokcancel("Quit", "Do you want to quit?"):
             self.running_state = False
             self.__root.destroy()
+            
 
     def draw_line(self, line, fill_color="black"):
         line.draw(self.__canvas, fill_color)
